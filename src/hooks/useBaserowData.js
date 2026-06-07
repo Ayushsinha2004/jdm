@@ -4,6 +4,12 @@ const TABLE_QUERIES = 746   // User Queries
 const TABLE_ORDERS  = 747   // Orders
 const CACHE_TTL_MS  = 5 * 60 * 1000
 
+// Baserow is proxied so its secret token (and plain-HTTP origin) never reach the
+// browser: dev → Vite /baserow proxy; prod → the jdm-feed edge function's
+// /baserow route (set VITE_JDM_FEED_URL). Default keeps the dev proxy path.
+const FEED = import.meta.env.VITE_JDM_FEED_URL
+const BR_BASE = FEED ? `${FEED.replace(/\/$/, '')}/baserow` : '/baserow'
+
 // Baserow single-select fields return {id, value, color} objects
 function val(field) {
   if (!field) return ''
@@ -13,7 +19,7 @@ function val(field) {
 
 async function fetchAllRows(tableId) {
   const rows = []
-  let path = `/baserow/api/database/rows/table/${tableId}/?size=200&user_field_names=true`
+  let path = `${BR_BASE}/api/database/rows/table/${tableId}/?size=200&user_field_names=true`
   while (path) {
     const res = await fetch(path)
     if (!res.ok) throw new Error(`Baserow table ${tableId}: ${res.status} ${res.statusText}`)
@@ -21,7 +27,7 @@ async function fetchAllRows(tableId) {
     rows.push(...(json.results || []))
     if (json.next) {
       const u = new URL(json.next)
-      path = `/baserow${u.pathname}${u.search}`
+      path = `${BR_BASE}${u.pathname}${u.search}`
     } else {
       path = null
     }

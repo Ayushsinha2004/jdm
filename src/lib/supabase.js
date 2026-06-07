@@ -1,6 +1,10 @@
-// All Supabase requests go through the Vite proxy at /rest/*.
-// The proxy (vite.config.js) adds the apikey + Authorization headers server-side,
-// so the secret key is never present in the browser bundle.
+// Supabase requests are proxied so the secret key never reaches the browser.
+//   • dev  — the Vite proxy at /rest/* (vite.config.js) injects the key.
+//   • prod — set VITE_JDM_FEED_URL to the deployed `jdm-feed` edge function; it
+//            serves the Supabase route under /rest/v1 and injects the key.
+// Default keeps the dev proxy path so `vite dev` works with no extra config.
+const FEED = import.meta.env.VITE_JDM_FEED_URL
+const SB_BASE = FEED ? `${FEED.replace(/\/$/, '')}/rest/v1` : '/rest/v1'
 
 export const solutionId = import.meta.env.VITE_SOLUTION_ID
 
@@ -29,7 +33,7 @@ class QueryBuilder {
     if (this._order.length)          p.push(`order=${this._order.join(',')}`)
     if (this._singleMode)            p.push('limit=1')
     else if (this._limitVal != null) p.push(`limit=${this._limitVal}`)
-    return `/rest/v1/${this._table}?${p.join('&')}`
+    return `${SB_BASE}/${this._table}?${p.join('&')}`
   }
 
   async _run() {
