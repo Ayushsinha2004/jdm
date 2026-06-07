@@ -1,0 +1,134 @@
+.site-header {
+  background: var(--primary);
+  color: var(--text-on-primary);
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.header-logo-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.header-name {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-on-primary);
+}
+
+.header-sub {
+  font-size: 12px;
+  opacity: 0.65;
+  margin-top: 1px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.time-filter {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-on-primary);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  background: rgba(255,255,255,.12);
+  opacity: 0.9;
+}
+
+.filter-btn-active {
+  background: rgba(255,255,255,.22);
+  opacity: 1;
+  font-weight: 600;
+}
+
+.header-meta {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.header-meta-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.header-meta-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  opacity: 0.55;
+}
+
+.header-meta-value {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .header-meta { display: none; }
+}
+
+@media (max-width: 640px) {
+  .time-filter { display: none; }
+  .header-inner { height: 60px; }
+}
